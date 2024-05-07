@@ -16,6 +16,7 @@ const replaceTurkishChar = (str) => {
 
   document.getElementById("submit").addEventListener("click", () => {
     try {
+        var input = document.getElementById("input").value;
         var geojson = JSON.parse(replaceTurkishChar(JSON.stringify(JSON.parse(input))));
     } catch (error) {
         alert("Please enter a valid GeoJSON data.");
@@ -26,7 +27,6 @@ const replaceTurkishChar = (str) => {
       document.getElementById("includeProperties").checked;
     var chunkedDataSizes = document.getElementById("chunkedDataSizes");
     var firstSize = document.getElementById("firstSize");
-    var input = document.getElementById("input").value;
     var output = document.getElementById("output");
     
     var chunked = [];
