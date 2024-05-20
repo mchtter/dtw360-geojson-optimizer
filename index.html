@@ -28,24 +28,26 @@
         cols="100"
         placeholder="Chunked Geojson"
       ></textarea>
-      <div style="display: flex; flex-direction: column">
-        <div id="include-checkbox">
-          <input
-            type="checkbox"
-            id="includeProperties"
-            name="includeProperties"
-            value="includeProperties"
-          />
-          <label for="includeProperties">Include Properties</label>
-        </div>
-        <button id="submit">Chunk</button>
-        <button id="copy">Copy Output</button>
-        <button id="clear">Clear</button>
-        <div>
-            <p id="firstSize"></p>
-            <p id="lastSize"></p>
-            <ul id="chunkedDataSizes"></ul>
+      <div style="display: flex; flex-direction: column; justify-content: space-between; max-height: 800px;">
+        <div style="display: flex; flex-direction: column">
+          <div id="include-checkbox">
+            <input
+              type="checkbox"
+              id="includeProperties"
+              name="includeProperties"
+              value="includeProperties"
+            />
+            <label for="includeProperties">Include Properties</label>
           </div>
+          <button id="submit">Chunk</button>
+          <button id="copy">Copy Output</button>
+          <button id="clear">Clear</button>
+        </div>
+        <div style="overflow: auto;">
+          <p id="firstSize"></p>
+          <p id="lastSize"></p>
+          <ul id="chunkedDataSizes"></ul>
+        </div>
       </div>
     </div>
     <script src="index.js"></script>
