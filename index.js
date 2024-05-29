@@ -54,7 +54,10 @@ document.getElementById("submit").addEventListener("click", () => {
       type: "Feature",
       geometry: {
         type: feature.geometry.type,
-        coordinates: feature.geometry.coordinates,
+        coordinates: optimizeCoordinatesByType(
+          feature.geometry.coordinates,
+          feature.geometry.type
+        ),
       },
     };
     if (includeProperties) {
@@ -112,3 +115,32 @@ document.getElementById("clear").addEventListener("click", () => {
   document.getElementById("firstSize").innerHTML = "";
   document.getElementById("lastSize").innerHTML = "";
 });
+
+function optimizeCoordinatesByType(coordinates, type) {
+  if (type === "MultiPolygon") {
+      return coordinates.map((polygon) => {
+        return polygon.map((lineString) => {
+          return optimizeCoordinate(lineString);
+        });
+      });
+  } else if (type === "Polygon") {
+      return coordinates.map((lineString) => {
+        return optimizeCoordinate(lineString);
+      });
+  } else if (type === "LineString") {
+      return optimizeCoordinate(coordinates);
+  } else if (type === "MultiLineString") {
+      return coordinates.map((lineString) => {
+        return optimizeCoordinate(lineString);
+      });
+  }
+}
+
+function optimizeCoordinate(lineString) {
+  return lineString.map((points) => {
+    return [
+      Math.round(points[0] * 1e6) / 1e6,
+      Math.round(points[1] * 1e6) / 1e6,
+    ];
+  });
+}
