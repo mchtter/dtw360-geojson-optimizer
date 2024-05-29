@@ -1,3 +1,10 @@
+var input = null;
+var geojson = null;
+var includeProperties = null;
+var chunkedDataSizes = null;
+var firstSize = null;
+var output = null;
+
 const replaceTurkishChar = (str) => {
   return str
     .replace(/ğ/g, "g")
@@ -16,8 +23,8 @@ const replaceTurkishChar = (str) => {
 
 document.getElementById("submit").addEventListener("click", () => {
   try {
-    var input = document.getElementById("input").value;
-    var geojson = JSON.parse(
+    input = document.getElementById("input").value;
+    geojson = JSON.parse(
       replaceTurkishChar(JSON.stringify(JSON.parse(input)))
     );
   } catch (error) {
@@ -25,23 +32,21 @@ document.getElementById("submit").addEventListener("click", () => {
     return;
   }
 
-  var includeProperties = document.getElementById("includeProperties").checked;
-  var chunkedDataSizes = document.getElementById("chunkedDataSizes");
-  var firstSize = document.getElementById("firstSize");
-  var output = document.getElementById("output");
+  includeProperties = document.getElementById("includeProperties").checked;
+  chunkedDataSizes = document.getElementById("chunkedDataSizes");
+  firstSize = document.getElementById("firstSize");
+  output = document.getElementById("output");
 
   var chunked = [];
   var chunkSize = 0;
   var maxChunkSize = 127000;
 
   var optimized = {
-    type: "FeatureCollection",
-    features: [],
+    feature: [],
   };
 
   var chunk = {
-    type: "FeatureCollection",
-    features: [],
+    feature: [],
   };
 
   geojson.features.forEach((feature) => {
@@ -63,20 +68,20 @@ document.getElementById("submit").addEventListener("click", () => {
     if (includeProperties) {
       optimizedFeature["properties"] = feature.properties;
     }
-    optimized.features.push(optimizedFeature);
+    optimized.feature.push(optimizedFeature);
   });
 
-  optimized.features.forEach((feature) => {
+  optimized.feature.forEach((feature) => {
     var featureSize = JSON.stringify(feature).length;
     if (chunkSize + featureSize > maxChunkSize) {
       chunked.push(chunk);
       chunk = {
         type: "FeatureCollection",
-        features: [],
+        feature: [],
       };
       chunkSize = 0;
     }
-    chunk.features.push(feature);
+    chunk.feature.push(feature);
     chunkSize += featureSize;
   });
   chunked.push(chunk);
@@ -144,3 +149,31 @@ function optimizeCoordinate(lineString) {
     ];
   });
 }
+
+document.getElementById("download").addEventListener("click", () => {
+  function saveAs(blob, name) {
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement("a");
+    a.href = url;
+    a.download = name;
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(function () {
+      document.body.removeChild(a);
+      window.URL.revokeObjectURL(url);
+    }, 0);
+  }
+
+  var data = document.getElementById("output").value;
+  var dataArray = JSON.parse(data);
+  var zip = new JSZip();
+  var count = 1;
+  dataArray.forEach((data) => {
+    zip.file(`${geojson.name || 'unnamed_geojson'}_${count}.json`, JSON.stringify([{...data}]));
+    count++;
+  });
+  zip.generateAsync({ type: "blob" }).then(function (content) {
+    saveAs(content, `${geojson.name || 'unnamed_geojson'}_chunked.zip`);
+  });
+});
+
