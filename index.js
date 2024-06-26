@@ -125,29 +125,38 @@ function optimizeCoordinatesByType(coordinates, type) {
   if (type === "MultiPolygon") {
       return coordinates.map((polygon) => {
         return polygon.map((lineString) => {
-          return optimizeCoordinate(lineString);
+          return optimizeCoordinate(lineString, type);
         });
       });
   } else if (type === "Polygon") {
       return coordinates.map((lineString) => {
-        return optimizeCoordinate(lineString);
+        return optimizeCoordinate(lineString, type);
       });
   } else if (type === "LineString") {
-      return optimizeCoordinate(coordinates);
+      return optimizeCoordinate(coordinates, type);
   } else if (type === "MultiLineString") {
       return coordinates.map((lineString) => {
         return optimizeCoordinate(lineString);
       });
+  } else if (type === "Point") {
+      return optimizeCoordinate(coordinates, type);
   }
 }
 
-function optimizeCoordinate(lineString) {
-  return lineString.map((points) => {
+function optimizeCoordinate(lineString, type) {
+  if (type === "Point") {
     return [
-      Math.round(points[0] * 1e6) / 1e6,
-      Math.round(points[1] * 1e6) / 1e6,
+      Math.round(lineString[0] * 1e6) / 1e6,
+      Math.round(lineString[1] * 1e6) / 1e6,
     ];
-  });
+  } else {
+    return lineString.map((points) => {
+      return [
+        Math.round(points[0] * 1e6) / 1e6,
+        Math.round(points[1] * 1e6) / 1e6,
+      ];
+    });
+  }
 }
 
 document.getElementById("download").addEventListener("click", () => {
