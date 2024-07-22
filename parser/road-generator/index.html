@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../../assets/style.css" />
+    <title>
+        Road Generator Parser
+    </title>
+  </head>
+  <body>
+    <h1>
+      Road Generation Parser Tool for DTW360
+    </h1>
+    <header class="header">
+      <nav>
+        <ul>
+          <li>
+            <a href="../../index.html">Geojson Optimizer</a>
+          </li>
+          <li>
+            <a href="../../parser/building-generator/index.html">Building Generator Parser</a>
+          </li>
+          <li class="active">
+            <a href="../../parser/road-generator/index.html">Road Generator Parser</a>
+          </li>
+          <li>
+            <a href="../../parser/water-body-generator/index.html">Water Generator Parser</a>
+          </li>
+          <li>
+            <a href="../../parser/block-generator/index.html">Block Generator Parser</a>
+          </li>
+          <li>
+            <a href="../../parser/surface-generator/index.html">Surface Generator Parser</a>
+          </li>
+        </ul>
+      </nav>
+     </header>
+
+    <div
+      style="display: flex; justify-content: space-around; align-items: center"
+    >
+      <textarea
+        id="input"
+        rows="30"
+        cols="100"
+        placeholder="Geojson"
+      ></textarea>
+      <textarea
+        id="output"
+        rows="30"
+        cols="100"
+        placeholder="Parsed Data"
+      ></textarea>
+      <div style="display: flex; flex-direction: column; justify-content: space-between; max-height: 800px;">
+        <div style="display: flex; flex-direction: column; width: 200px;">
+          <button id="submit">Parse</button>
+          <button id="copy">Copy Output</button>
+          <button id="clear">Clear</button>
+          <button id="download">Download</button>
+        </div>
+      </div>
+    </div>
+    <script src="../../lib/jszip.min.js"></script>
+    <script src="../../lib/road-generator.js"></script>
+  </body>
+</html>

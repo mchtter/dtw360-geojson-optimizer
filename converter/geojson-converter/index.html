@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../../assets/style.css" />
+    <title>Geojson Converter</title>
+  </head>
+  <style>
+    .converter {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      margin: 5px;
+      padding: 5px;
+    }
+    .converter input {
+      margin: 5px;
+    }
+    .converter label {
+      margin: 5px;
+    }
+    #include-checkbox {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    #include-checkbox input {
+      margin: 5px;
+    }
+    #include-checkbox label {
+      margin: 5px;
+    }
+  </style>
+  <body>
+    <header class="header">
+      <nav>
+        <ul>
+          <li>
+            <a href="../../chunker/geojson-chunker/index.html">Geojson Chunk</a>
+          </li>
+          <li class="active">
+            <a href="../../converter/geojson-converter/index.html"
+              >Geojson Converter</a
+            >
+          </li>
+          <li>
+            <a href="../../parser/index.html">City Builder Parser</a>
+          </li>
+        </ul>
+      </nav>
+    </header>
+    <h1>Geojson Converter</h1>
+
+    <div
+      style="
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        max-height: 800px;
+      "
+    >
+      <div style="display: flex; flex-direction: row; align-items: center">
+        <div
+          style="
+            border-radius: 10px;
+            border: 1px solid #a8a8a8;
+            margin: 5px;
+            padding: 5px;
+          "
+        >
+          <input type="file" id="file" accept=".geojson" />
+        </div>
+        <div
+          class="converter"
+          style="
+            border-radius: 10px;
+            border: 1px solid #a8a8a8;
+            display: flex;
+            flex-direction: row;
+          "
+        >
+          <div>
+            <input
+              type="radio"
+              id="multiline-to-line"
+              name="geometryType"
+              value="multiline-to-line"
+            />
+            <label for="multiline-to-line">MLS to LS</label>
+          </div>
+          <div>
+            <input
+              type="radio"
+              id="multipolygon-to-polygon"
+              name="geometryType"
+              value="multipolygon-to-polygon"
+            />
+            <label for="multipolygon-to-polygon">MP to P</label>
+          </div>
+          <div>
+            <input
+              type="radio"
+              id="polygon-to-line"
+              name="geometryType"
+              value="polygon-to-line"
+            />
+            <label for="polygon-to-line">P to LS</label>
+          </div>
+        </div>
+
+        <button id="submit">Convert</button>
+        <button id="copy">Copy Output</button>
+        <button id="clear" style="background-color: red">Clear</button>
+        <button id="download">Download</button>
+      </div>
+      <div style="overflow: auto">
+        <p id="firstSize"></p>
+        <p id="lastSize"></p>
+        <ul id="chunkedDataSizes"></ul>
+      </div>
+    </div>
+
+    <div
+      style="display: flex; justify-content: space-around; align-items: center"
+    >
+      <textarea
+        id="output"
+        rows="30"
+        cols="150"
+        placeholder="Converted Geojson"
+      ></textarea>
+    </div>
+    <script src="../../lib/jszip.min.js"></script>
+    <script src="../../lib/geojson-converter.js"></script>
+  </body>
+</html>

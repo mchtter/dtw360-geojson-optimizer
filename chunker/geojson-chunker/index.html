@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../../assets/style.css" />
+    <title>
+      Geojson Chunker
+    </title>
+  </head>
+  <body>
+    <header class="header">
+      <nav>
+        <ul>
+          <li class="active">
+            <a href="../../chunker/geojson-chunker/index.html">Geojson Chunk</a>
+          </li>
+          <li>
+            <a href="../../converter/geojson-converter/index.html">Geojson Converter</a>
+          </li>
+          <li>
+            <a href="../../parser/index.html">City Builder Parser</a>
+          </li>
+        </ul>
+      </nav>
+     </header>
+    <h1>
+      Geojson Validation, Chunk, Optimize and Replace Turkish Char for DTW360
+    </h1>
+
+    <div
+      style="display: flex; justify-content: space-around; align-items: center"
+    >
+      <textarea
+        id="input"
+        rows="30"
+        cols="100"
+        placeholder="Geojson"
+      ></textarea>
+      <textarea
+        id="output"
+        rows="30"
+        cols="100"
+        placeholder="Chunked Geojson"
+      ></textarea>
+      <div style="display: flex; flex-direction: column; justify-content: space-between; max-height: 800px;">
+        <div style="display: flex; flex-direction: column">
+          <div id="include-checkbox">
+            <input
+              type="checkbox"
+              id="includeProperties"
+              name="includeProperties"
+              value="includeProperties"
+            />
+            <label for="includeProperties">Include Properties</label>
+          </div>
+          <button id="submit">Chunk</button>
+          <button id="copy">Copy Output</button>
+          <button id="clear">Clear</button>
+          <button id="download">Download</button>
+        </div>
+        <div style="overflow: auto;">
+          <p id="firstSize"></p>
+          <p id="lastSize"></p>
+          <ul id="chunkedDataSizes"></ul>
+        </div>
+      </div>
+    </div>
+    <script src="../../lib/jszip.min.js"></script>
+    <script src="../../lib/geojson-chunker.js"></script>
+  </body>
+</html>
